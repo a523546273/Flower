@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>shop.html</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/lunbo.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<link href="css/my.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+/**用户登录验证**/
+function hh(element){
+	return document.getElementById(element);
+	}
+function checkLoginId(){
+	var loginId=hh("signup-username").value;
+	if(loginId.trim().length==0){
+		layer.tips('用户名不能为空！','#signin-username');
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function checkPwd(){
+	var pwd=hh("signin-password").value;
+	
+
+	if(pwd.trim().length==0){
+		layer.tips('密码不能为空！','#signin-password');
+		return false;
+	}else{
+		return true;
+	}
+
+}	
+
+
+
+
+	/**先加载商城加载显示鲜花列表**/
+	$(function() {
+		$.ajax({
+			url:"ShowflowerServlet",
+			type:"post",
+			data:"",
+			dataType:"json",
+			success:function(data){	
+				var str = "";
+				$
+						.each(
+								data,
+								function(index, val) {
+
+									str += " <div class='imgs' > ";
+									str += " <div class='flower'> ";
+									str += " <a href='#'><img src='"+val.flowerimg1+"' /></a> ";
+									str += " </div>";
+									str += " <p>" + val.description
+											+ "<span class='rnb'>["
+											+ val.price
+											+ "]</span></p> ";
+									str += " <p >产品编号："
+											+ val.flowerId
+											+ "</p> ";
+									str += " <p ><a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/detail.png' style='padding-bottom:2px;'/></a>&nbsp;&nbsp;<a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/lijigoumai.png' /></a></p>";
+									str += " </div>";
+
+								});
+				$("#imgs1").html(str);
+			}
+		});
+	});
+
+	/**根据花的价格查询花的信息**/
+	function searchbyprice(mix, max) {
+		var jsonStr = {
+			'mix' : mix,
+			'max' : max
+		};
+
+		$
+				.ajax({
+
+					url : "PriceShopServlet",
+					type : "post",
+					data : jsonStr,
+					dataType : "json",
+					success : function(date) {
+						var str = "";
+						$
+								.each(
+										date,
+										function(index, val) {
+
+											str += " <div class='imgs' > ";
+											str += " <div class='flower'> ";
+											str += " <a href='#'><img src='"+val.flowerimg1+"' /></a> ";
+											str += " </div>";
+											str += " <p>" + val.description
+													+ "<span class='rnb'>["
+													+ val.price
+													+ "]</span></p> ";
+											str += " <p >产品编号：" + val.flowerId
+													+ "</p> ";
+
+											str += " <p ><a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/detail.png' style='padding-bottom:2px;'/></a>&nbsp;&nbsp;<a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/lijigoumai.png' /></a></p>";
+											str += " </div>";
+
+										});
+
+						$("#imgs1").html(str);
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+
+	}
+
+	/** 根据花的种类查询花的信息**/
+	function search(name) {
+		var jsonStr = {
+			'flowerName' : name
+		};
+		$
+				.ajax({
+
+					url : "FlowerShopServlet",
+					type : "post",
+					data : jsonStr,
+					dataType : "json",
+					success : function(date) {
+						var str = "";
+						$
+								.each(
+										date,
+										function(index, val) {
+
+											str += " <div class='imgs' > ";
+											str += " <div class='flower'> ";
+											str += " <a href='#'><img src='"+val.flowerimg1+"' /></a> ";
+											str += " </div>";
+											str += " <p>" + val.description
+													+ "<span class='rnb'>["
+													+ val.price
+													+ "]</span></p> ";
+											str += " <p >产品编号：" + val.flowerId
+													+ "</p> ";
+
+											str += " <p ><a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/detail.png' style='padding-bottom:2px;'/></a>&nbsp;&nbsp;<a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/lijigoumai.png' /></a></p>";
+											str += " </div>";
+
+										});
+
+						$("#imgs1").html(str);
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+
+	}
+
+	/* function skipPage(pageIndex){
+	 location.href="FlowerShopServlet?pageIndex="+pageIndex;
+	 }
+	
+	 function skipPrev(pageIndex){
+	 if(pageIndex==0){
+	 alert('当前已经是第一页');
+	
+	 }else{
+	
+	 location.href="FlowerShopServlet?pageIndex="+pageIndex;
+	 }
+	
+	 }
+	
+	 function skipNext(pageIndex,pageCount){
+	
+	 if(pageIndex<pageCount){
+	
+	 alert('当前已经是最后一页');
+	
+	 }else{
+	
+	 location.href="FlowerShopServlet?pageIndex="+pageIndex;
+	 }
+	 } */
+</script>
+<link href="css/my.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div id="toptop">
+		<div class="divc">
+
+			
+
+				<div id="nameContainer"></div>
+				
+			</div>
+
+	</div>
+
+
+
+	<div id="top">
+		<div class="divc">
+			<div class="tleft">
+				<img src="images01/blossomlogo.png" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_07.jpg" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_09.jpg" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_11.jpg" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_03.jpg" /><img src="images01/top_04.jpg" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_16.gif" />
+			</div>
+
+
+		</div>
+	</div>
+
+	<!--menu begin-->
+	<div id="menu">
+		<div class="divc">
+			<ul>
+				<li class="li1"><a href="#">网站首页</a></li>
+				<li class="li2"><a href="#">玫瑰情人</a></li>
+				<li class="li1"><a href="#">百合恋人</a></li>
+				<li class="li2"><a href="#">蓝色精灵</a></li>
+				<li class="li1"><a href="#">爱情测试</a></li>
+				<li class="li2"><a href="#">思念亲友</a></li>
+				<li class="li1"><a href="#">每日情缘</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="xian"></div>
+
+
+	<div class="zhuce">
+		<div class="divc2">
+			<img src="images01/bar01.jpg" id="lunbo" />
+		</div>
+		<div class="fenlei1" id="fig1">
+			<a href="javascript:onclick=show('1');" id="infon1">加入珍情&nbsp;告别单身</a>
+		</div>
+		<div class="fenlei2" id="fig2">
+			<a href="javascript:onclick=show('2');" id="infon2">珍爱由心&nbsp;玫瑰寻爱</a>
+		</div>
+		<div class="fenlei3" id="fig3">
+			<a href="javascript:onclick=show('3');" id="infon3">花好月圆&nbsp;事在人为</a>
+		</div>
+		<div class="fenlei4" id="fig4">
+			<a href="javascript:onclick=show('4');" id="infon4">情人鲜花&nbsp;完美爱情</a>
+		</div>
+
+	</div>
+
+	<script src="zhenqing.js" type="text/javascript"></script>
+
+
+
+
+
+
+	<div class="top">
+		<div class="divc">
+			<div class="ffenlei">
+<h2 style="color:#C30031;margin-left:0px;line-height: 50px;">商品分类</h2>
+
+				<h3>按种类</h3>
+				<hr>
+				|-&nbsp;<a href="javascript:onclick=search('红玫瑰');">红玫瑰</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('粉玫瑰');">粉玫瑰</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('蓝玫瑰');">蓝玫瑰</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('百合');">百合</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('扶郎花');">扶郎花</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('马蹄莲');">马蹄莲</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('康乃馨');">康乃馨</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('礼盒花');">礼盒花</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('郁金香');">郁金香</a>&nbsp;-|<br>
+
+				<h3>按价格</h3>
+				<hr>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('99','199');">99~199</a>&nbsp;&nbsp;
+				-|-&nbsp;<a href="javascript:onclick=searchbyprice('200','299');">200~299</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('300','399');">300~399</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=searchbyprice('400','499');">400~499</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('500','599');">500~599</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=searchbyprice('600','699');">600~699</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('700','799');">700~799</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=searchbyprice('800','999');">800~999</a>&nbsp;-|<br>
+
+				<h3>按用途</h3>
+				<hr>
+				|-&nbsp;<a href="javascript:onclick=search('红玫瑰');">热恋中</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('粉玫瑰');">爱情</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('蓝玫瑰');">朋友</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('百合');">婚庆</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('扶郎花');">思念</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('马蹄莲');">祝福</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('康乃馨');">探望</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('礼盒花');">道歉</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('郁金香');">商业</a>&nbsp;-|<br>
+
+
+			</div>
+
+			<div class="fourimg1">
+				<a href="#"><img src="images01/lh1.jpg" /></a>
+			</div>
+
+			<div class="fourimg2">
+
+				<div class="ztop">
+					
+					<p>
+						<a href="#">更多</a>
+					</p>
+				</div>
+
+
+				<div class="fbottom">
+					<div id="imgs1"></div>
+				</div>
+			</div>
+
+
+
+
+
+			<div id="top">
+				<div class="divc">
+					<div class="bbleft">
+						<a href="#"> <img src="images01/hd03.jpg" /></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="bbright">
+				<a href="#"> <img src="images01/hd04.jpg" /></a>
+			</div>
+		</div>
+	</div>
+
+	<div id="top">
+		<div class="divc divc3">
+
+			<div class="hhtop">
+				<h4>成功故事</h4>
+				<p>
+					<a href="#">更多</a>
+				</p>
+			</div>
+			<div class="divc3bottom">
+
+				<div class="divc3bottomleft1">
+					<table>
+						<tr>
+							<a href="#"><img src="images01/gs01.jpg" /></a>
+						</tr>
+						<tr>
+							<td><span class="red"><strong>有种爱情叫作关怀</strong></span></td>
+						</tr>
+						<tr>
+							<td><span class="gray">他：阿米朵 她：流年</span></td>
+						</tr>
+						<tr>
+							<td>当初选择了和他在一起，是因为他的执</td>
+						</tr>
+						<tr>
+							<td>着打动了我。虽然我们相差21岁</td>
+						</tr>
+						<tr>
+							<td><a href="#"><span class="red">查看详细</span></a></td>
+						</tr>
+					</table>
+				</div>
+
+
+				<div class="divc3bottomleft1">
+					<table>
+						<tr>
+							<a href="#"><img src="images01/gs01.jpg" /></a>
+						</tr>
+						<tr>
+							<td><span class="red"><strong>有种爱情叫作关怀</strong></span></td>
+						</tr>
+						<tr>
+							<td><span class="gray">他：阿米朵 她：流年</span></td>
+						</tr>
+						<tr>
+							<td>当初选择了和他在一起，是因为他的执</td>
+						</tr>
+						<tr>
+							<td>着打动了我。虽然我们相差21岁</td>
+						</tr>
+						<tr>
+							<td><a href="#"><span class="red">查看详细</span></a></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="divc3bottomleft1">
+					<table>
+						<tr>
+							<a href="#"><img src="images01/gs01.jpg" /></a>
+						</tr>
+						<tr>
+							<td><span class="red"><strong>有种爱情叫作关怀</strong></span></td>
+						</tr>
+						<tr>
+							<td><span class="gray">他：阿米朵 她：流年</span></td>
+						</tr>
+						<tr>
+							<td>当初选择了和他在一起，是因为他的执</td>
+						</tr>
+						<tr>
+							<td>着打动了我。虽然我们相差21岁</td>
+						</tr>
+						<tr>
+							<td><a href="#"><span class="red">查看详细</span></a></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="divc3bottomleft1">
+					<table>
+						<tr>
+							<a href="#"><img src="images01/gs01.jpg" /></a>
+						</tr>
+						<tr>
+							<td><span class="red"><strong>有种爱情叫作关怀</strong></span></td>
+						</tr>
+						<tr>
+							<td><span class="gray">他：阿米朵 她：流年</span></td>
+						</tr>
+						<tr>
+							<td>当初选择了和他在一起，是因为他的执</td>
+						</tr>
+						<tr>
+							<td>着打动了我。虽然我们相差21岁</td>
+						</tr>
+						<tr>
+							<td><a href="#"><span class="red">查看详细</span></a></td>
+						</tr>
+					</table>
+				</div>
+
+
+			</div>
+
+
+
+		</div>
+	</div>
+
+
+	<div id="top1">
+		<div class="divc foot">
+			联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp;
+			联系客户&nbsp; 联系客户&nbsp; 联系客户 <br /> <img src="images01/endtel.jpg"
+				style="vertical-align:middle" /> 免长途(9~12)<br /> ©2013-2014 版权所有
+			皖IPC备124578965号 <img src="images01/gs.jpg"
+				style="vertical-align:middle" />
+
+
+
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+	<p>&nbsp;</p>
+</body>
+</html>

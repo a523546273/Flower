@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5b58482f-033e-411a-a65a-4df5e1088ea4" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="E:\repository" />
+        <option name="mavenHome" value="E:/whw/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="E:\whw\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1acw7CUuSKuEdFvOa1jRc86cRCw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="E:/whw/Git/bin/git.exe" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\Administrator\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5b58482f-033e-411a-a65a-4df5e1088ea4" name="Default Changelist" comment="" />
+      <created>1587048020681</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587048020681</updated>
+      <workItem from="1587048029206" duration="1032000" />
+      <workItem from="1587049122311" duration="1878000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="767" y="393" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1587048265239">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="767" y="393" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1032@0.0.1920.1032" timestamp="1587048265239" />
+    <state x="686" y="192" key="FileChooserDialogImpl" timestamp="1587050380301">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="686" y="192" key="FileChooserDialogImpl/0.0.1920.1032@0.0.1920.1032" timestamp="1587050380301" />
+    <state x="721" y="408" key="Github.CreateGistDialog" timestamp="1587049028391">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="721" y="408" key="Github.CreateGistDialog/0.0.1920.1032@0.0.1920.1032" timestamp="1587049028391" />
+    <state x="789" y="379" width="341" height="362" key="Github.ShareDialog" timestamp="1587049850021">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="789" y="379" width="341" height="362" key="Github.ShareDialog/0.0.1920.1032@0.0.1920.1032" timestamp="1587049850021" />
+    <state x="311" y="0" key="SettingsEditor" timestamp="1587050386680">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="311" y="0" key="SettingsEditor/0.0.1920.1032@0.0.1920.1032" timestamp="1587050386680" />
+    <state x="748" y="254" key="svn.repositoryBrowser" timestamp="1587050268899">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="748" y="254" key="svn.repositoryBrowser/0.0.1920.1032@0.0.1920.1032" timestamp="1587050268899" />
+    <state x="722" y="221" key="svn4idea.import.options" timestamp="1587050265411">
+      <screen x="0" y="0" width="1920" height="1032" />
+    </state>
+    <state x="722" y="221" key="svn4idea.import.options/0.0.1920.1032@0.0.1920.1032" timestamp="1587050265411" />
+  </component>
+</project>

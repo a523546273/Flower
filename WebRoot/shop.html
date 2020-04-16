@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>shop.html</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="js/lunbo.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<link href="css/my.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="css/Jpagstyle.css" rel="stylesheet" type="text/css" />
+<style>
+          
+           
+        </style>
+<script type="text/javascript">
+/**用户登录验证**/
+function hh(element){
+	return document.getElementById(element);
+	}
+function checkLoginId(){
+	var loginId=hh("loginId").value;
+	if(loginId.trim().length==0){
+		layer.tips('用户名不能为空！','#loginId');
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function checkPwd(){
+	var pwd=hh("loginPwd").value;
+	if(pwd.trim().length==0){
+		layer.tips('密码不能为空！','#loginPwd');
+		return false;
+	}else{
+		return true;
+	}
+
+}	
+/**登录**/
+ function doLogin(){
+	createXMLHttpRequest();
+	var name = document.getElementById("loginId").value;
+	var pwd = document.getElementById("loginPwd").value;
+	 createXMLHttpRequest();
+	if(xhr!=null){
+		var url ="CustomerLoginServlet?loginId="+name+"&loginPwd="+pwd; 
+		xhr.open("POST",url,true);
+		xhr.setRequestHeader("Content-Type",
+			"application/x-www-form-urlencoded;");
+		xhr.onreadystatechange=processRequest;
+		xhr.send(null);
+	}else{
+		alert("不能创建XMLHttpRequest对象实例");
+	}
+}
+function processRequest(){
+	if(xhr.readyState==4){
+		 if(xhr.status==200){
+			 var data=xhr.responseText;
+			 var suc=data.substring(0, 7);
+			 var nickName=data.substring(7);
+			 
+			if(suc=="success"){
+				 document.getElementById("regs").style.display ="none";
+				 document.getElementById("demo").style.visibility ="hidden";
+				 document.getElementById("demo1").style.display ="block";
+				 document.getElementById("demo2").style.display ="block";
+				 document.getElementById("quit1").style.display ="block";
+				 document.getElementById("nickName").innerHTML=nickName;
+				 
+			}else if(data=="faile"){
+				layer.tips('用户名密码错误！','#loginId');
+			}
+		 }
+	 }
+	
+	
+}
+
+
+
+/**提示用户名、密码**/
+ function nameFocus(){
+	
+	 layer.tips('请输入16字以内的用户名，包括字母、下划线', '#registerName', {
+		  tips: [1, '#FFFFFF'],
+		  time: 4000
+		});
+	
+	
+}
+function pwdFocus(){
+	var i=document.getElementById("registerName").value;
+	
+	if(i.length==0){
+		layer.tips('用户名不能为空！','#registerName');
+	}else{
+	
+	layer.tips('请输入长度16以内的字符', '#registerPwd', {
+		  tips: [1, '#3595CC'],
+		  time: 4000
+		});
+	}
+	
+}
+
+/**用户注册验证**/
+
+ var xhr;
+ function createXMLHttpRequest(){
+	 try 
+     { 
+          // Firefox, Opera 8.0+, Safari 
+          xhr=new XMLHttpRequest(); 
+     } 
+     catch (e) 
+     { 
+           // Internet Explorer 
+          try 
+          { 
+        	  xhr=new ActiveXObject("Msxml2.XMLHTTP"); 
+          } 
+          catch (e) 
+          { 
+                 try
+                 { 
+                	 xhr=new ActiveXObject("Microsoft.XMLHTTP"); 
+                 } 
+                 catch (e) 
+                 { 
+                        alert("您的浏览器不支持AJAX！"); 
+                 } 
+          } 
+     }
+ }
+ //失去光标事件  用来验证用户名是否可用
+ function checkName2(obj){
+	 
+	 var name=document.getElementById("registerName").value;
+	 var reg =/^[\u4e00-\u9fa5\w]+$/;
+	 if(name.trim().length==0){
+			layer.tips('用户名不能为空！','#registerName');
+		}else if(!reg.test(name)){
+			layer.tips('用户名只能由字母、数字组成！','#registerName');
+		}
+	 else{
+	 createXMLHttpRequest();
+	 xhr.onreadystatechange=haolejiaowo;
+	 xhr.open("GET", "CustomerRegisterServlet?nickName="+obj.value,true);
+	 xhr.send();
+		}
+}
+ //回调函数
+ function haolejiaowo(){
+	 if(xhr.readyState==4){
+		 if(xhr.status==200){
+			 var data=xhr.responseText;
+			if(data=="OK"){
+				layer.tips('用户名可用！','#registerName');
+				return true;
+			}else if(data=="ISHAS"){
+				layer.tips('用户名已存在！','#registerName');
+				return false;
+			}
+			
+		 }
+	 }
+ }
+ //验证注册密码
+ function checkPwd2(obj){
+	 var reg = /^\w+$/;
+	 if(obj.value.trim().length==0){
+		 layer.tips('密码不能为空！','#registerPwd');
+	 }
+	 else if(!reg.test(obj.value)){
+		layer.tips('密码格式不正确！','#registerPwd');
+		return false;
+	}else{
+		return true;
+	}
+ }
+ //验证重复密码
+ function checkrePwd(obj){
+		var pwd=document.getElementById("registerPwd").value;
+		var repwd=obj.value;
+		if(pwd!=repwd){
+			layer.tips('两次密码不一致！','#registerrePwd');
+			return false;
+		}else{
+			return true;
+		}
+		
+	}
+ //验证顾客真实姓名
+ function checkcName(obj){
+	 var reg=/^[\u0391-\uFFE5]+$/;
+	 if(!reg.test(obj.value)){
+		 layer.tips('对不起，您输入的姓名格式不正确！','#cName');
+		 return false;
+	 }else{
+		 return true;
+	 }
+	 
+	 
+ }
+ //验证手机号码
+ function checkPhone(obj){
+	 var reg=/^1[3|4|5|7|8]\d{9}$/;
+	 if(!reg.test(obj.value)){
+		 layer.tips('请输入正确的手机号码，例如139*、138*','#phone');
+		 return false;
+	 }else{
+		 return true;
+	 }
+ }
+ 
+ /**用户注册**/
+ function doRegister(){
+	// var nickName=document.getElementById("registerName");
+	 var a=haolejiaowo();
+	 
+	 var pwd=document.getElementById("registerPwd");
+	 var b=checkPwd2(pwd);
+	 
+	 var rePwd=document.getElementById("registerrePwd");
+	 var e=checkrePwd(rePwd);
+	
+	 var phone=document.getElementById("phone");
+	 var c=checkPhone(phone);
+	 
+	 var cName=document.getElementById("cName");
+	 var d=checkcName(cName);
+	
+	if(a&&b&&c&&d&&e){
+		 document.forms[0].submit();
+	}else{
+		layer.tips('信息有误！请核对您的信息','#btn');
+	}
+	 
+	 
+ }
+ //搜索框进行处理
+function xiaoshi(obj){
+	 if(obj.value=="请输入花名"){
+		 document.getElementById("desc").value=""; 
+	 }
+ }
+function chuxian(obj){
+	if(obj.value.trim().length==0){
+		document.getElementById("desc").value="请输入花名";
+	}
+}
+
+ /**上传头像**/
+ $(function() {
+			$("#uploadfile")
+					.on(
+							"change",
+							function(e) {
+								var fr = new FileReader();
+								fr.readAsDataURL(document
+										.getElementById("uploadfile").files[0]);
+								fr.onload = function(e) {
+									$("#imglab").addClass("bg_size");
+									$("#imglab").css("background-image",
+											"url(" + e.target.result + ")");
+									/* $("#imglab").css("width","");
+									$("#imglab").css("width",""); */
+
+									$("#imglab").html('');
+								};
+
+							});
+		});
+
+	/**先加载商城加载显示鲜花列表**/
+	
+/**查询、更新个人信息**/
+ function updateinfo(){
+	nickName1=$("#nickName").html();
+	layer.open({
+		  type: 2,
+		  title: '个人信息页',
+		  shadeClose: true,
+		  shade: 0.8,
+		  area: ['515px', '75%'],
+		  content: 'UpdateInfoServlet?nickName='+nickName1, //iframe的url
+		}); 
+	
+}
+/**查看订单**/
+function chakanorder(){
+	nickName1=$("#nickName").html();
+	
+	layer.open({
+		  type: 2,
+		  title: '订单信息',
+		  shadeClose: true,
+		  shade: 0.8,
+		  area: ['800px', '60%'],
+		  content: 'DingDanServlet?nickName='+nickName1 //iframe的url
+		}); 
+	
+}
+/**退出**/
+function quit1(){
+	createXMLHttpRequest();
+	
+	
+	if(xhr!=null){
+		var url ="QuitCustomerServlet"; 
+		xhr.open("POST",url,true);
+		xhr.setRequestHeader("Content-Type",
+			"application/x-www-form-urlencoded;");
+		xhr.onreadystatechange=quitsuccess;
+		xhr.send(null);
+	}else{
+		alert("不能创建XMLHttpRequest对象实例");
+	}
+	
+}
+function quitsuccess(){
+	if(xhr.readyState==4){
+		 if(xhr.status==200){
+			 var data=xhr.responseText;
+			if(data=="success"){
+				document.getElementById("regs").style.display ="block";
+				 document.getElementById("demo").style.visibility ="visible";
+				 document.getElementById("demo1").style.display ="none";
+				// document.getElementById("demo2").style.display ="block";
+				 document.getElementById("quit1").style.display ="none";
+			}
+			
+		 }
+	 }
+	
+	
+}
+
+var pageIndex=1;
+</script>
+
+
+<link href="css/my.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+	<div id="toptop">
+		<div class="divc">
+			<div class="heh">
+				<div id="demo1" style="display: none"><span class="demoNick">欢迎 </span><span id="nickName"></span><span class="demoNick">来到专业的blossom花店</span>
+				<span class="information"><a href="javascript:onclick=chakanorder()">订单信息</a></span><span class="information"><a href="javascript:onclick=updateinfo()">个人信息</a>&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+				<div class="demo" id="demo">
+					<nav class="main_nav">
+						<ul>
+							<li><a class="cd-signin" href="#0">登录</a></li>
+							<li><a class="cd-signup" href="#0">注册</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div class="cd-user-modal" id="regs">
+					<div class="cd-user-modal-container">
+						<ul class="cd-switcher">
+							<li><a href="#0">用户登录</a></li>
+							<li><a href="#0">注册新用户</a></li>
+						</ul>
+
+						<div id="cd-login">
+							<!-- 登录表单 -->
+								<p class="fieldset">
+									<label class="image-replace cd-username" for="loginId">用户名</label>
+									<input class="full-width has-padding has-border"
+										id="loginId" type="text" placeholder="输入用户名" value="王宏伟" name="txtname" onblur="checkLoginId()">
+								</p>
+
+								<p class="fieldset">
+									<label class="image-replace cd-password" for="loginPwd">密码</label>
+									<input class="full-width has-padding has-border"
+										id="loginPwd" type="password" value="123" placeholder="输入密码" name="txtpwd" onblur="checkPwd()">
+								</p>
+								<p class="fieldset">
+									<input class="full-width2" type="button" value="登 录" onclick="doLogin()">
+									&nbsp;&nbsp;&nbsp;<a href="updatePwd.html">忘记密码？</a>
+								</p>
+								
+						</div>
+
+						<div id="cd-signup">
+							<!-- 注册表单 -->
+							<form action="CusRegisterServlet" method="post" enctype="multipart/form-data">
+								
+								<h2>上传头像</h2>
+								<div class="c">
+									<label id="imglab" title="点击'+'号上传头像" class="loadfile"
+										for="uploadfile">+</label> <input type="file"
+										id="uploadfile" style="display:none;" name="headimg" />
+								</div>
+								<div>
+								<p class="fieldset">
+									<label class="image-replace cd-username" for="registerName">用户名</label>
+									<input class="full-width has-padding has-border"
+									name="registerName"	id="registerName" type="text" placeholder="输入用户名" onblur="checkName2(this)" onFocus="nameFocus()"><span id="sp"></span>
+								</p>
+								<p class="fieldset">
+									
+									<label class="image-replace cd-password" for="loginPwd">密码</label>
+									<input class="full-width has-padding has-border"
+									name="registerPwd"	id="registerPwd" type="password" placeholder="输入密码" onFocus="pwdFocus()" onblur="checkPwd2(this)">
+								</p>
+
+								<p class="fieldset">
+									<label class="image-replace cd-password" for="loginPwd">重复密码</label>
+									<input class="full-width has-padding has-border"
+										id="registerrePwd" type="password" placeholder="重复密码" onblur="checkrePwd(this)">
+								</p>
+
+								<p class="fieldset">
+									<label class="image-replace " for="cName">真实姓名</label>
+									<input class="full-width has-padding has-border"
+									name="cName"	id="cName" type="text" placeholder="真实姓名" onblur="checkcName(this)">
+								</p>
+								<div class="radio">
+									<input type="radio" name="radio" id="man" value="男">男&nbsp;&nbsp;
+									&nbsp;&nbsp; 
+									<input type="radio" name="radio" id="women"
+										value="女">女
+								</div>
+								<p class="fieldset">
+									<label class="image-replace " for="phone">手机号码</label>
+									<input class="full-width has-padding has-border"
+									name="phone" id="phone" type="text" placeholder="手机号码" onblur="checkPhone(this)">
+								</p>
+								
+								<p class="fieldset">
+									<label class="image-replace " for="address">地址</label>
+									<input class="full-width has-padding has-border"
+									name="address"	id="address" type="text" placeholder="地址">
+								</p>
+								<p class="fieldset">
+									<label class="image-replace " for="miBao">密保问题</label>
+									<input class="full-width has-padding has-border"
+									name="miBao"	id="miBao" type="text" placeholder="密保问题" onblur="">
+								</p>
+								<p class="fieldset">
+									<label class="image-replace " for="answer">密保答案</label>
+									<input class="full-width has-padding has-border"
+									name="answer"	id="answer" type="text" placeholder="密保答案" onblur="">
+								</p>
+								<p class="fieldset">
+									<input class="full-width2" type="button" value="注册新用户" onclick="doRegister()" id="btn">
+								</p>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		<div class="shouye" id="quit1" style="display: none"><a href="javascript:onclick=quit1()"> 退出登录 </a>|
+             </div>       
+		</div>
+		
+	</div>
+	
+	<div id="top">
+		<div class="divc">
+			<div class="tleft">
+				<img src="images01/blossomlogo.png" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_07.jpg" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_09.jpg" />
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_11.jpg" />
+			</div>
+			<div class="tzhong">
+			<a href="#">	<img src="images01/top_03.jpg" /></a>  <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1084872667&site=qq&menu=yes"><img src="images01/top_04.jpg" /></a>
+			</div>
+			<div class="tzhong">
+				<img src="images01/top_16.gif" width="105px;" height="48px;"/>
+			</div>
+
+
+		</div>
+	</div>
+
+	<!--menu begin-->
+	<div id="menu">
+		<div class="divc">
+			<ul>
+				<li class="li1"><a href="#">网站首页</a></li>
+				<li class="li2"><a href="#">玫瑰情人</a></li>
+				<li class="li1"><a href="#">百合恋人</a></li>
+				<li class="li2"><a href="#">蓝色精灵</a></li>
+				<li class="li1"><a href="#">爱情测试</a></li>
+				<li class="li2"><a href="#">思念亲友</a></li>
+				<li class="li1"><a href="#">每日情缘</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="xian"></div>
+	<div class="zhuce">
+		<div class="divc2">
+			<img src="images01/bar01.jpg" id="lunbo" />
+		</div>
+		<div class="fenlei1" id="fig1">
+			<a href="javascript:onclick=show('1');" id="infon1">钟情一生&nbsp;玫瑰缤纷</a>
+		</div>
+		<div class="fenlei2" id="fig2">
+			<a href="javascript:onclick=show('2');" id="infon2">珍爱由心&nbsp;给予香槟</a>
+		</div>
+		<div class="fenlei3" id="fig3">
+			<a href="javascript:onclick=show('3');" id="infon3">花好月圆&nbsp;百年好合</a>
+		</div>
+		<div class="fenlei4" id="fig4">
+			<a href="javascript:onclick=show('4');" id="infon4">情人鲜花&nbsp;完美爱情</a>
+		</div>
+
+	</div>
+
+	<div class="top">
+		<div class="divc">
+			<div class="ffenlei">
+		
+<h2 style="color:#C30031;margin-left:0px;line-height: 50px;">商品分类</h2>
+
+				<h3>按种类</h3>
+				<hr>
+				|-&nbsp;<a href="javascript:onclick=search('红玫瑰');">红玫瑰</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('粉玫瑰');">粉玫瑰</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('蓝玫瑰');">蓝玫瑰</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('百合');">百合</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('扶郎花');">扶郎花</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('马蹄莲');">马蹄莲</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('康乃馨');">康乃馨</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('礼盒花');">礼盒花</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('郁金香');">郁金香</a>&nbsp;-|<br>
+
+				<h3>按价格</h3>
+				<hr>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('99','199');">99~199</a>&nbsp;&nbsp;
+				-|-&nbsp;<a href="javascript:onclick=searchbyprice('200','299');">200~299</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('300','399');">300~399</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=searchbyprice('400','499');">400~499</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('500','599');">500~599</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=searchbyprice('600','699');">600~699</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=searchbyprice('700','799');">700~799</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=searchbyprice('800','999');">800~999</a>&nbsp;-|<br>
+
+				<h3>按用途</h3>
+				<hr>
+				|-&nbsp;<a href="javascript:onclick=search('红玫瑰');">热恋</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('粉玫瑰');">爱情</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('蓝玫瑰');">朋友</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('百合');">婚庆</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('扶郎花');">思念</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('马蹄莲');">祝福</a>&nbsp;-|<br>
+				|-&nbsp;<a href="javascript:onclick=search('康乃馨');">探望</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('礼盒花');">道歉</a>&nbsp;-|-&nbsp;<a
+					href="javascript:onclick=search('郁金香');">商业</a>&nbsp;-|<br>
+			</div>
+			<div class="fourimg1">
+				<a href="#"><img src="images01/lh1.jpg" style="width: 750px;height: 150px;"/></a>
+			</div>
+
+			<div class="fourimg2">
+              <!-- 根据花的名字模糊查询 -->
+				<div class="ztop">
+				<p>
+						<a href="javascript:onclick=searchByDescription();">&nbsp;搜索</a>
+					</p>
+					<input type="text" id="desc" value="请输入花名" onfocus="xiaoshi(this)"  onblur="chuxian(this)">
+					
+					
+				</div>
+				<div class="fbottom">
+				
+					<div id="imgs1"></div>
+					
+				
+		
+	<div id="pagination0"></div>
+	<div class="content">
+		<div class="demo">
+			
+			<div id="demo2" style="display: block;"></div>
+			<div id="demo3" style="display: none;"></div>
+		</div>
+	</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="top2"></div>
+	
+    <div id="top">
+    <div class="divc fuwu">
+    
+    <div class="fuwuzhinan">
+    <h3>服务指南</h3>
+    <hr style="width: 190px;">
+    <p id="wu">免长途费 二十四小时服务</p>
+    <img alt="暂无图片" src="images01/hua_106.jpg" id="wu">
+    <p id="wu">二十四小时在线咨询QQ</p>
+    <img alt="暂无图片" src="images01/hua_109.jpg" id="wu">
+    </div>
+    
+    <div class="fuwuzhinan">
+    <h3>如何订购</h3>
+    <hr style="width: 190px;">
+  <p>一、自己在我们的网站上提交订单</p>
+  <p>二、通过在线QQ(1084872667)订购</p>
+  <p>三、电话订购，请拨打免费服务电<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话:18056608684</p>
+    </div>
+    
+     <div class="fuwuzhinan">
+    <h3>配送方式</h3>
+    <hr style="width: 190px;">
+  <p>市区：指城内10公里范围，免费配送</p>
+  <p>近郊：指城内超出10公里外至20公里范围内，加收运费20元</p>
+  <p>远郊：指城区边缘地带，加收运费<br>40元</p>
+    </div>
+    
+    <div class="fuwuzhinan1">
+    <h3>付款方式</h3>
+    <hr style="width: 190px;">
+  <img alt="" src="images01/pay_12.jpg">
+  <img alt="" src="images01/pay_16.jpg">
+  <img alt="" src="images01/pay_24.jpg">
+    </div>
+    
+    
+    </div>
+    </div>
+	<div id="top">
+				<div class="divc imgdivc">
+					<div class="imgbottom">
+						 <img src="images01/bottom.jpg" width="1000px"/>
+					</div>
+				</div>
+			</div>
+
+
+	
+
+
+	<div id="top1">
+		<div class="divc foot">
+			联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp; 联系客户&nbsp;
+			联系客户&nbsp; 联系客户&nbsp; 联系客户 <br /> <img src="images01/endtel.jpg"
+				style="vertical-align:middle" /> 免长途(9~12)<br /> ©2013-2014 版权所有
+			皖IPC备124578965号 <img src="images01/gs.jpg"
+				style="vertical-align:middle" />
+
+		</div>
+	</div>
+
+<script type="text/javascript" src="js/jquery.paginate.js"></script>
+<script type="text/javascript">
+/**加载商城的时候加载花的信息**/
+//页容量
+var pageSize=16;
+//总页数
+var pageCount;
+$(function(){
+	//获取总页数
+	getPageCounts(pageSize);
+});
+function  getPageCounts(pageSize){
+	var jsonStr={pSize:pageSize,random:Math.random()};
+	$.ajax({
+		url:"GetFlowerPageCountServlet",
+		type:"post",
+		data:jsonStr,
+		dataType:"json",
+		success:function (data){
+			
+			pageCount=data.pcount;
+			/*调用进行分页的方法*/
+			setPages();
+		},error:function(){
+			alert('error');
+		}
+	});
+}
+/*分页的函数*/
+function setPages(){
+	$("#demo2").paginate({
+		count : pageCount, //${6}此处要写清本次分页的总页数,不支持动态改变,不可写非int型数.个人建议在进入页面的时候就把页数传过来
+		start : 1, //开始页码,从1开始,一般设置成1
+		display : 7, //在分页条上显示的个数,分页数等于或超过本设置会显示设置的个数,不够的话会显示真实个数,不过就不会出现滚动效果了.
+		border : false, //是否显示外框
+		text_color : '#888', //文字颜色
+		background_color : '#EEE', //背景颜色
+		text_hover_color : 'black', //鼠标放上去时文字的颜色
+		background_hover_color : '#CFCFCF',//鼠标放上去时背景的颜色
+		rotate : true, //是否滚动
+		images : false, //
+		mouse : 'press', //可选值为'press'和'slide',具体差别请自己体验.
+		onChange : function(page) {//本插件唯一可触发的事件,在点击页数的时候触发,只传过来当前被选中的页数,我想这其实足够了.
+			getPageData(page, pageSize);
+		}
+	});
+	
+	//调用ajax异步实现每页的数据
+	getPageData(1, pageSize);
+
+}
+function getPageData(pageIndex,pageSize){
+	
+	var jsonStr={
+			start : pageIndex,
+			pageSize : pageSize,
+			
+		};
+	$.ajax({
+		url : "JPaginateServlet1",
+		type : "post",
+		data : jsonStr,
+		dataType : "json",
+		timeout : 10000,
+		error : function() {
+			alert('请求超时，请稍候再试');
+		},
+		success : function(result) {
+		    var  str='';
+			$.each(result, function(index, val) {
+				str += " <div class='imgs' > ";
+				str += " <div class='flower' id='flower'> ";
+				str += " <a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='"+val.flowerimg1+"' width='170px' height='170px'/></a> ";
+				str += " </div>";
+				str += " <p>" + val.description
+						+ "<span class='rnb'>["
+						+ val.price
+						+ "]</span></p> ";
+				str += " <p >产品编号："
+						+ val.flowerId
+						+ "</p> ";
+				str += " <p ><a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/detail.png' style='padding-bottom:2px;'/></a>&nbsp;&nbsp;<a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/lijigoumai.png' /></a></p>";
+				str += " </div>";
+
+			});
+			$("#imgs1").html(str);
+		},
+		error : function() {
+			alert("error");
+		}
+	});
+};
+
+/***************************************根据花的种类查询花的信息并且分类****************************************************/
+function search(name){
+	getPageCountsByName(pageSize,name);
+	
+}
+function  getPageCountsByName(pageSize,name){
+	var jsonStr={pSize:pageSize,random:Math.random(),flowerName:name};
+	$.ajax({
+		url:"GetFlowerPCountByFnameServlet",
+		type:"post",
+		data:jsonStr,
+		dataType:"json",
+		success:function (data){
+			pageCount=parseInt(data.pcount);
+			flowerName=data.flowerName;
+			/*调用进行分页的方法*/
+			setPagesByName(flowerName);
+		},error:function(){
+			alert('error');
+		}
+	});
+}	
+function setPagesByName(flowerName){
+	
+	$("#demo2").paginate({
+		count : pageCount, //${6}此处要写清本次分页的总页数,不支持动态改变,不可写非int型数.个人建议在进入页面的时候就把页数传过来
+		start : 1, //开始页码,从1开始,一般设置成1
+		display : 2, //在分页条上显示的个数,分页数等于或超过本设置会显示设置的个数,不够的话会显示真实个数,不过就不会出现滚动效果了.
+		border : false, //是否显示外框
+		text_color : '#888', //文字颜色
+		background_color : '#EEE', //背景颜色
+		text_hover_color : 'black', //鼠标放上去时文字的颜色
+		background_hover_color : '#CFCFCF',//鼠标放上去时背景的颜色
+		rotate : true, //是否滚动
+		images : false, //
+		mouse : 'press', //可选值为'press'和'slide',具体差别请自己体验.
+		onChange : function(page) {//本插件唯一可触发的事件,在点击页数的时候触发,只传过来当前被选中的页数,我想这其实足够了.
+	    getPageDataByName(page, pageSize,flowerName);
+		}
+	});
+	
+	//调用ajax异步实现每页的数据
+	getPageDataByName(1, pageSize,flowerName);
+
+}
+
+function getPageDataByName(pageIndex,pageSize,flowerName){
+	
+	var jsonStr={
+			start : pageIndex,
+			pageSize : pageSize,
+			flowerName : flowerName,
+			
+		};
+	$.ajax({
+		url : "JPaginateByNameServlet",
+		type : "post",
+		data : jsonStr,
+		dataType : "json",
+		timeout : 10000,
+		error : function() {
+			alert('请求超时，请稍候再试');
+		},
+		success : function(result) {
+		    var  str='';
+			$.each(result, function(index, val) {
+				str += " <div class='imgs' > ";
+				str += " <div class='flower' id='flower'> ";
+				str += " <a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='"+val.flowerimg1+"' width='170px' height='170px'/></a> ";
+				str += " </div>";
+				str += " <p>" + val.description
+						+ "<span class='rnb'>["
+						+ val.price
+						+ "]</span></p> ";
+				str += " <p >产品编号："
+						+ val.flowerId
+						+ "</p> ";
+				str += " <p ><a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/detail.png' style='padding-bottom:2px;'/></a>&nbsp;&nbsp;<a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/lijigoumai.png' /></a></p>";
+				str += " </div>";
+
+			});
+			$("#imgs1").html(str);
+		},
+		error : function() {
+			alert("error");
+		}
+	});
+};
+
+/********************************************************************************************/
+/**根据花的价格查询花的信息**/
+	function searchbyprice(min, max) {
+		getPageCountsByPrice(pageSize,min,max);
+
+	}
+	function  getPageCountsByPrice(pageSize,min,max){
+		var jsonStr={pSize:pageSize,random:Math.random(),min:min,max:max};
+		$.ajax({
+			url:"PriceShopServlet",
+			type:"post",
+			data:jsonStr,
+			dataType:"json",
+			success:function (data){
+				pageCount=data.pcount;
+				/*调用进行分页的方法*/
+				setPagesByPrice(min,max);
+			},error:function(){
+				alert('error');
+			}
+		});
+	}
+	
+	function setPagesByPrice(min,max){
+		
+		$("#demo2").paginate({
+			count : pageCount, //${6}此处要写清本次分页的总页数,不支持动态改变,不可写非int型数.个人建议在进入页面的时候就把页数传过来
+			start : 1, //开始页码,从1开始,一般设置成1
+			display : 3, //在分页条上显示的个数,分页数等于或超过本设置会显示设置的个数,不够的话会显示真实个数,不过就不会出现滚动效果了.
+			border : false, //是否显示外框
+			text_color : '#888', //文字颜色
+			background_color : '#EEE', //背景颜色
+			text_hover_color : 'black', //鼠标放上去时文字的颜色
+			background_hover_color : '#CFCFCF',//鼠标放上去时背景的颜色
+			rotate : true, //是否滚动
+			images : false, //
+			mouse : 'press', //可选值为'press'和'slide',具体差别请自己体验.
+			onChange : function(page) {//本插件唯一可触发的事件,在点击页数的时候触发,只传过来当前被选中的页数,我想这其实足够了.
+		    getPageDataByPrice(page, pageSize,min,max);
+			}
+		});
+		
+		//调用ajax异步实现每页的数据
+		getPageDataByPrice(1, pageSize,min,max);
+
+	}
+	
+	function getPageDataByPrice(pageIndex,pageSize,min,max){
+		
+		var jsonStr={
+				start : pageIndex,
+				pageSize : pageSize,
+				min : min,
+				max : max,
+				
+			};
+		$.ajax({
+			url : "JPaginateByPriceServlet",
+			type : "post",
+			data : jsonStr,
+			dataType : "json",
+			timeout : 10000,
+			error : function() {
+				alert('请求超时，请稍候再试');
+			},
+			success : function(result) {
+			    var  str='';
+				$.each(result, function(index, val) {
+					str += " <div class='imgs' > ";
+					str += " <div class='flower' id='flower'> ";
+					str += " <a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='"+val.flowerimg1+"' width='170px' height='170px'/></a> ";
+					str += " </div>";
+					str += " <p>" + val.description
+							+ "<span class='rnb'>["
+							+ val.price
+							+ "]</span></p> ";
+					str += " <p >产品编号："
+							+ val.flowerId
+							+ "</p> ";
+					str += " <p ><a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/detail.png' style='padding-bottom:2px;'/></a>&nbsp;&nbsp;<a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/lijigoumai.png' /></a></p>";
+					str += " </div>";
+
+				});
+				$("#imgs1").html(str);
+			},
+			error : function() {
+				alert("error");
+			}
+		});
+	};
+
+	/*************************************************************************************************/
+	/**根据花的名字模糊查询花的信息**/
+	function searchByDescription(){
+		var description=document.getElementById("desc").value;
+		if(description.trim().length==0||description=="请输入花名"){
+			layer.open({
+				  type: 1,
+				  skin: 'layui-layer-demo', //样式类名
+				  closeBtn: 0, //不显示关闭按钮
+				  shift: 2,
+				  shadeClose: true, //开启遮罩关闭
+				  content: '<br/><p class="ab">亲！不输入花名blossom怎么帮你查询呢！</p><br/>'
+				});
+			
+		}else{
+			getPageCountsByDescription(pageSize,description);
+		}
+	}
+		
+		
+		function  getPageCountsByDescription(pageSize,description){
+			var jsonStr = {description : description,pSize:pageSize,random:Math.random()};
+			$.ajax({
+				url:"SearchFlowerByDescriptionServlet",
+				type:"post",
+				data:jsonStr,
+				dataType:"json",
+				success:function (data){
+					pageCount=parseInt(data.pcount);
+					
+					if(pageCount==0){
+						layer.open({
+							  type: 1,
+							  skin: 'layui-layer-demo', //样式类名
+							  closeBtn: 0, //不显示关闭按钮
+							  shift: 2,
+							  shadeClose: true, //开启遮罩关闭
+							  content: '<br/><p class="ab">亲！未找到您需要的鲜花，blossom建议您换一个名字试一试！</p><br/>'
+							});
+					}else{
+					
+					description=data.description;
+					/*调用进行分页的方法*/
+					setPagesByDescription(description);
+					}
+				},error:function(){
+					alert('error');
+				}
+			});
+		}
+		
+		function setPagesByDescription(description){
+			
+			$("#demo2").paginate({
+				count : pageCount, //${6}此处要写清本次分页的总页数,不支持动态改变,不可写非int型数.个人建议在进入页面的时候就把页数传过来
+				start : 1, //开始页码,从1开始,一般设置成1
+				display : 3, //在分页条上显示的个数,分页数等于或超过本设置会显示设置的个数,不够的话会显示真实个数,不过就不会出现滚动效果了.
+				border : false, //是否显示外框
+				text_color : '#888', //文字颜色
+				background_color : '#EEE', //背景颜色
+				text_hover_color : 'black', //鼠标放上去时文字的颜色
+				background_hover_color : '#CFCFCF',//鼠标放上去时背景的颜色
+				rotate : true, //是否滚动
+				images : false, //
+				mouse : 'press', //可选值为'press'和'slide',具体差别请自己体验.
+				onChange : function(page) {//本插件唯一可触发的事件,在点击页数的时候触发,只传过来当前被选中的页数,我想这其实足够了.
+			    getPageDataBydescription(page, pageSize,description);
+				}
+			});
+			
+			//调用ajax异步实现每页的数据
+			getPageDataBydescription(1, pageSize,description);
+
+		}
+
+		function getPageDataBydescription(pageIndex,pageSize,description){
+			
+			var jsonStr={
+					start : pageIndex,
+					pageSize : pageSize,
+					description : description,
+					
+				};
+			$.ajax({
+				url : "JPaginateByDescriptionServlet",
+				type : "post",
+				data : jsonStr,
+				dataType : "json",
+				timeout : 10000,
+				error : function() {
+					alert('请求超时，请稍候再试');
+				},
+				success : function(result) {
+				    var  str='';
+					$.each(result, function(index, val) {
+						str += " <div class='imgs' > ";
+						str += " <div class='flower' id='flower'> ";
+						str += " <a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='"+val.flowerimg1+"' width='170px' height='170px'/></a> ";
+						str += " </div>";
+						str += " <p>" + val.description
+								+ "<span class='rnb'>["
+								+ val.price
+								+ "]</span></p> ";
+						str += " <p >产品编号："
+								+ val.flowerId
+								+ "</p> ";
+						str += " <p ><a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/detail.png' style='padding-bottom:2px;'/></a>&nbsp;&nbsp;<a href='FlowerDetailServlet?fid="+val.flowerId+"'><img src='images/lijigoumai.png' /></a></p>";
+						str += " </div>";
+
+					});
+					$("#imgs1").html(str);
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		};
+	
+
+</script>
+	
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+	 <meta charset="UTF-8">
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+ <link href="style/authority/add.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+
+<style type="text/css">
+.c {
+	width: 200px;
+	height: 200px;
+	margin-left:50px;
+}
+
+.loadfile {
+	float: right;
+	display: block;
+	width: 170px;
+	height: 170px;
+	font-size: 40px;
+	text-align: center;
+	line-height: 170px;
+	border: 1px solid #ccc;
+}
+
+.bg_size {
+	background-repeat: no-repeat;
+	background-size: 170px 170px;
+}
+}
+</style>
+<script type="text/javascript">
+	// 声明一个XMLHttpRequest对象
+	var xhr;
+	//创建一个XMLHttpRequest对象
+	function createXMLHttpRequest() {
+		try {
+			xhr = new XMLHttpRequest();
+		//} catch (e) {
+			//xhr = new ActiveXObject("Msxml2.XMLHTTP");
+		//} catch (e) {
+			//xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) 
+		{
+			alert("您的浏览器不支持AJAX！");
+		}
+	}
+
+	function checkNickName() {
+	var nickName = document.getElementById("nickName").value;
+	var reg =/^[\u4e00-\u9fa5\w]+$/;
+	if(nickName.trim().length==0){
+	 layer.tips('用户名不能为空', '#nickName');
+	 return false;
+	}else if(nickName.trim().length<=16&&reg.test(nickName.trim())){
+	   
+		createXMLHttpRequest();
+		
+		//设置回调函数
+		xhr.onreadystatechange = ok;
+		//发送请求
+		xhr.open("GET", "CustomerServlet?type=registerCustomerOK&nickName="
+				+ nickName.trim(), true);
+		xhr.send();
+		}else{
+		layer.tips('用户名需由16位以内字符组成', '#nickName');
+		return false;
+		}
+	}
+
+	function ok() {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+		
+				var data = xhr.responseText;
+				if (data == "OK") {
+				layer.tips('用户名可用', '#nickName');
+				
+					return true;
+				}else{
+				layer.tips('用户名已存在', '#nickName');
+				
+				return false;
+				}
+				
+			}
+		}
+
+	}
+	function $1(element) {
+	return document.getElementById(element);
+}
+	
+	function checkPwd() {
+	var password = $1("pwd");
+	var reg = /^\w+$/;
+	if (password.value.trim().length != 0) {
+		if (!reg.test(password.value.trim())||password.value.trim().length>16) {
+			layer.tips('密码需由16位以内字符组成', '#pwd');
+			return false;
+		} else {
+		
+			return true;
+		}
+	} else {
+	
+	layer.tips('密码不能为空', '#pwd');
+		
+		return false;
+	}
+}
+	
+	function checkPwd2(){
+	var password = $1("pwd");
+	var Pwd = $1("repwd");
+	if (Pwd.value.trim().length != 0) {
+		if (password.value.trim()!=Pwd.value.trim()) {
+			layer.tips('两次密码输入不一致', '#repwd');
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+	layer.tips('密码不能为空', '#repwd');
+		return false;
+		
+	}
+	}
+	
+	function checkName(){
+	var name = $1("name");
+	var reg = /^[\u4e00-\u9fa5\w]+$/;
+	if (name.value.trim().length != 0) {
+		if (!reg.test(name.value.trim()) || name.value.trim().length > 20) {
+		layer.tips('姓名由20个以内的字符构成', '#name');
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		layer.tips('姓名不能为空', '#name');
+		return false;
+		
+	}
+}
+
+function checkPhone() {
+	var phone = $1("phone");
+	var reg = /^1\d{10}$/;
+	if (phone.value.trim().length != 0) {
+		if (!reg.test(phone.value.trim())) {
+		layer.tips('手机号码不正确,如：138****4578', '#phone');
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+	layer.tips('手机号码不能为空', '#phone');
+		return false;
+	}
+}
+
+function checkAddress(){
+	var address = $1("address");
+	var reg = /^[\u4e00-\u9fa5\w]+$/;
+	if (address.value.trim().length != 0) {
+	
+		if (!reg.test(address.value.trim())||address.value.trim().length >20) {
+	
+		layer.tips('地址格式不正确，如：**省**市', '#address');
+			
+			return false;
+		} else {
+		
+			return true;
+		}
+	} else {
+	layer.tips('地址不能为空', '#address');
+		return false;	
+	}
+}
+
+function checkMiBao(){
+    var miBao = $1("miBao");
+	var reg = /^[\u4e00-\u9fa5\w]+$/;
+	if (miBao.value.trim().length != 0) {
+		if (!reg.test(miBao.value.trim()) || miBao.value.trim().length > 20) {
+		layer.tips('密保问题须由20位以内字符组成', '#miBao');
+			
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+	layer.tips('密保问题不能为空', '#miBao');
+		return false;	
+	}
+}
+
+function checkAnswer(){
+    var answer = $1("answer");
+	var reg = /^[\u4e00-\u9fa5\w]+$/;
+	if (miBao.value.trim().length != 0) {
+		if (!reg.test(answer.value.trim()) || answer.value.trim().length > 20) {
+		layer.tips('密保答案须由20位以内字符组成', '#answer');
+			
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+	layer.tips('密保答案不能为空', '#answer');
+		return false;	
+	}
+}
+	
+	function to_submit(){
+	if(ok()&&checkPwd()&&checkPwd2()&&checkName()&&checkPhone()&&checkAddress()&&checkMiBao()&&checkAnswer()){
+		document.forms[0].submit();
+	}
+	}
+</script>
+
+
+</head>
+
+<body>
+	<div>
+		<form method="post" action="AddCustomerServlet?type=addCustomer" enctype="multipart/form-data">
+			<table class="mytab w600">
+				<tr>
+					
+					<th colspan="2">新 增 顾 客</th>
+				</tr>
+				<tr>
+					<td><label for="name">昵称</label></td>
+					<td><input type="text" name="nickName" id="nickName"
+						onblur="checkNickName()"></td>
+				</tr>
+				<tr>
+					<td><label for="pwd">密码：</label></td>
+					<td><input type="password" name="pwd" id="pwd"
+						onblur="checkPwd()"></td>
+				</tr>
+
+				<tr>
+					<td><label for="pwd2">确认密码：</label></td>
+					<td><input type="password" name="repwd" id="repwd"
+						onblur="checkPwd2()"></td>
+				</tr>
+				<tr>
+					<td><label for="name">真实姓名： </label></td>
+					<td><input type="text" name="name" id="name"
+						onblur="checkName()"></td>
+				</tr>
+				<tr>
+					<td><label for="phone">电话：</label></td>
+					<td><input type="text" name="phone" id="phone"
+						onblur="checkPhone()"></td>
+				</tr>
+				<tr>
+					<td>性别：</td>
+					<td><input type="radio" name="gender" id="male" value="男"
+						checked="checked"> <label for="male">男</label>&nbsp;&nbsp;<input
+						type="radio" name="gender" id="female" value="女"><label
+						for="female">女</label></td>
+				</tr>
+				
+				<tr>
+					<td><label for="address">地址：</label></td>
+
+					<td><input type="text" name="address" id="address"
+						onblur="checkAddress()">
+				</tr>
+				<tr>
+
+					<td><label for="imglab">头像：</label></td>
+					<td>
+						<div class="c">
+							<label id="imglab" title="点击'+'号上传头像" class="loadfile"
+								for="uploadfile">+</label> <input type="file" id="uploadfile"
+								style="display:none;" name="headimg" />
+						</div>
+					</td>
+				</tr>
+
+
+				<tr>
+					<td><label for="email">请设置密保问题：</label></td>
+					<td><input type="text" name="miBao" id="miBao"
+						onblur="checkMiBao()"></td>
+				</tr>
+				<tr>
+					<td><label for="email">请设置密保答案：</label></td>
+					<td><input type="text" name="answer" id="answer"
+						onblur="checkAnswer()"></td>
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="button" onclick="to_submit()"
+						name="button" id="button" value=" 立即注册 "></td>
+				</tr>
+			</table>
+</form>
+		
+	</div>
+	
+	<script type="text/javascript">
+		$(function() {
+
+			$("#uploadfile")
+					.on(
+							"change",
+							function(e) {
+								var fr = new FileReader();
+								fr.readAsDataURL(document
+										.getElementById("uploadfile").files[0]);
+								fr.onload = function(e) {
+									$("#imglab").addClass("bg_size");
+									$("#imglab").css("background-image",
+											"url(" + e.target.result + ")");
+									/* $("#imglab").css("width","");
+									$("#imglab").css("width",""); */
+
+									$("#imglab").html('');
+								};
+
+							});
+		});
+	</script>
+</body>
+</html>
+

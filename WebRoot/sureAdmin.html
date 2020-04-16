@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>sureAdmin.html</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<style type="text/css">
+.t1 {
+	margin: 0 auto;
+	width: 360px;
+	font-size: 14px;
+	color: #5A5A5A;
+	background-color: #F6F6F6;
+	height: 225px;
+}
+
+#t2 {
+	border: 1px solid #ECECEC;
+	background-color: #AD8D8B;
+	text-align: left;
+	text-indent: 1em;
+	letter-spacing: 2px;
+	font-size: 14px;
+	font-weight: bold;
+	ext-transform: uppercase;
+	line-height: 30px;
+	color: #fff;
+	height: 34px;
+}
+
+#t3 {
+	font-size: 15px;
+	line-height: 30px;
+	text-indent: 30px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+}
+
+#t4 {
+	font-size: 14px;
+	line-height: 40px;
+	padding-left: 60px;
+}
+
+#t5 {
+	margin-top: -31px;
+	margin-left: 130px;
+}
+
+#t6 {
+	border: 1px solid #8F8F8F;
+	color: #5A5A5A;
+	margin-left: 130px;
+	margin-top: 20px;
+}
+
+#t7 {
+	margin-top: -32px;
+	margin-left: 130px;
+}
+.xx{
+	background:url(images01/login/gg.png) no-repeat;
+	background-position:30px 55px;
+	width:360px;
+	height:200px;
+	line-height:200px;
+	color:#C83F34;
+	font-size:18px;
+	text-indent:10em;
+	background-color: #F6F6F6;
+	margin:20px;
+}
+</style>
+<script type="text/javascript">
+	$(function() {
+		var str = "";
+		str += "<div id='t2'>忘记密码</div>";
+		str += " <div id='t3'>亲爱的管理员请按照顺序完成下列步骤，才可以找回密码哦!<br/></div>";
+		str += "<div id='t4'>用户名：</div>";
+		str += "<div id='t5'> <input type='text' id='loginName' name='loginName' style='width: 102px'/></div>";
+		str += "<input type='button' id='t6' value='       下一步       '  onclick='makeSure()'/>";
+
+		$("#t1").html(str);
+	});
+
+	function makeSure() {
+		var loginName = document.getElementById("loginName").value.trim();
+		if (loginName.length != 0) {
+			
+			var jsonStr = {
+				loginName : loginName
+			};
+			$
+					.ajax({
+						url : "AdminServlet?type=sureLoginName",
+						type : "post",
+						data : jsonStr,
+						dataType : "json",
+						success : function(data) {
+							var str = "";
+							str += "<div id='t2'>验证密保问题</div>";
+							str += "<div id='t3'>亲爱的管理员需要先回答密保问题，才可以找回密码哦!<br/></div>";
+							str += " <div id='t4'>密保问题：</div>";
+							str += " <div id='t7'> <input type='text' id='miBao' name='miBao' style='width: 102px' readonly='readonly' value='"+data.miBao+"'/></div>";
+							str += "<div id='t4'>密保答案：</div>";
+							str += " <div id='t7'> <input type='text' id='answer' name='answer' style='width: 102px'/></div>";
+							str += " <input type='button' id='t6' value='       下一步       '  onclick=answer('"+data.answer+"','"+data.adminId+"') />";
+							$("#t1").html(str);
+						},
+						error : function() {
+							alert("该用户不存在");
+						}
+					});
+		} else {
+			layer.tips('用户名不能为空！', '#loginName');
+		}
+	}
+
+	function answer(answer,adminId) {
+		var answer1 = document.getElementById("answer").value.trim();
+		if (answer1.length != 0) {
+			if (answer1 == answer) {
+
+				var str = "";
+				str += "<div id='t2'>重置密码</div>";
+				str += "<div id='t3'>亲爱的管理员您现在可以重置密码咯!<br/></div>";
+				str += " <div id='t4'>密码：</div>";
+				str += " <div id='t7'> <input type='password' id='pwd' name='pwd' style='width: 102px' /></div>";
+				str += "<div id='t4'>确认密码：</div>";
+				str += " <div id='t7'> <input type='password' id='pwd2' name='pwd2' style='width: 102px'/></div>";
+				str += " <input type='button' id='t6' value='       下一步       '  onclick='resetPwd("+adminId+")' />";
+				$("#t1").html(str);
+
+			} else {
+				layer.tips('您的答案不正确！', '#answer');
+			}
+		} else {
+			layer.tips('密保答案不能为空！', '#answer');
+		}
+	}
+
+	function resetPwd(adminId) {
+		var pwd = document.getElementById("pwd").value.trim();
+		var pwd2 = document.getElementById("pwd2").value.trim();
+		var reg = /^\w+$/;
+		if (pwd.length != 0) {
+			if (!reg.test(pwd) || pwd.length > 16) {
+				layer.tips('密码需由16位以内字符组成', '#pwd');
+			} else {
+				if (pwd2.length != 0) {
+					if (pwd != pwd2) {
+						layer.tips('两次密码输入不一致', '#pwd2');
+					} else {
+					
+						var jsonStr = {adminId : adminId,loginPwd:pwd};
+						$.ajax({
+							url : "AdminServlet?type=resetPwd",
+							type : "post",
+							data : jsonStr,
+							dataType : "json",
+							success : function(data) {
+								var str="";
+								str+="恭喜您重置密码成功！";
+								$("#t1").html(str);
+								$("#t1").removeClass("t1").addClass("xx");
+							},
+							error : function() {
+								alert("error");
+							}
+						});
+					}
+				} else {
+					layer.tips('密码不能为空', '#pwd2');
+				}
+			}
+		} else {
+			layer.tips('密码不能为空', '#pwd');
+		}
+	}
+</script>
+</head>
+
+<body>
+	<div id="t1" class="t1">
+	
+	</div>
+
+</body>
+</html>

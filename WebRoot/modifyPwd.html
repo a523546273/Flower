@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>modifyPwd.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+  <script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<style type="text/css">
+.s1{
+    margin: 0 auto;
+    width:60%;
+	font-size:14px;
+	color: #5A5A5A;
+	background-color:#F6F6F6;
+	height: 365px; 
+}
+#s2{
+	border: 1px solid #ECECEC;
+	background-color:#AD8D8B;
+	text-align:left;
+	text-indent:1em;
+	letter-spacing: 2px;
+	font-size:14px;
+	font-weight:bold;
+	ext-transform: uppercase;
+	line-height:30px;
+	color: #fff;
+	height: 37px;
+}
+#s3{
+ font-size: 15px;
+ line-height:30px;
+ text-indent: 30px;
+ padding-top: 10px;
+}
+#s4{
+font-size: 14px;
+ line-height:30px;
+ padding-left: 30px;
+}
+#s5{
+font-size: 14px;
+ line-height:40px;
+ padding-left: 90px;
+}
+#s6{
+width:100px;
+}
+#s7{
+margin-top: -40px;
+margin-left: 100px;
+}
+#s8{
+   border:1px solid #D0D0D0;
+   color:#5A5A5A;
+   margin-left: 150px;
+   margin-top: 20px;
+}
+</style>
+<script type="text/javascript">
+// 声明一个XMLHttpRequest对象
+	var xhr;
+	//创建一个XMLHttpRequest对象
+	function createXMLHttpRequest() {
+		try {
+			xhr = new XMLHttpRequest();
+		//} catch (e) {
+			//xhr = new ActiveXObject("Msxml2.XMLHTTP");
+		//} catch (e) {
+			//xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) 
+		{
+			alert("您的浏览器不支持AJAX！");
+		}
+	}
+	
+	function checkPwd() {
+	var pwd = document.getElementById("pwd").value;
+	var reg =/^\w+$/;
+	if(pwd.trim().length==0){
+	 layer.tips('当前密码不能为空', '#pwd');
+	 return false;
+	}else if(pwd.trim().length<=16&&reg.test(pwd.trim())){
+	   
+		createXMLHttpRequest();
+		
+		//设置回调函数
+		xhr.onreadystatechange = ok;
+		//发送请求
+		xhr.open("GET", "AdminServlet?type=surePwd&pwd="
+				+ pwd.trim(), true);
+		xhr.send();
+		}else{
+		layer.tips('密码需由16位以内字符组成', '#pwd');
+		return false;
+		}
+	}
+
+	function ok() {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+				var data = xhr.responseText;
+				if (data == "OK") {
+				layer.tips('密码正确', '#pwd');
+					return true;
+				}else{
+				layer.tips('密码不正确', '#pwd');
+				return false;
+				}
+			}
+		}
+	}
+	
+	function $(element) {
+	return document.getElementById(element);
+	}
+	
+	
+	function checkPwd1() {
+	var password = $("pwd1");
+	var reg = /^\w+$/;
+	if (password.value.trim().length != 0) {
+		if (!reg.test(password.value.trim())||password.value.trim().length>16) {
+			layer.tips('新密码需由16位以内字符组成', '#pwd1');
+			return false;
+		} else {
+		
+			return true;
+		}
+	} else {
+	
+	layer.tips('新密码不能为空', '#pwd1');
+		
+		return false;
+	}
+}
+
+	function checkPwd2(){
+	var password = $("pwd1");
+	var Pwd = $("pwd2");
+	if (Pwd.value.trim().length != 0) {
+		if (password.value.trim()!=Pwd.value.trim()) {
+			layer.tips('两次密码输入不一致', '#pwd2');
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+	layer.tips('确认密码不能为空', '#pwd2');
+		return false;
+		
+	}
+	}
+	
+	
+	function to_submit(){
+	if(ok()&&checkPwd1()&&checkPwd2()){
+		document.forms[0].submit();
+	}
+	}
+</script>
+  </head>
+  
+  <body>
+  <div class="s1">
+ <div id="s2"> 更改登录密码<br/></div>
+   <div id="s3">定期更换密码可以让您的账户更加安全。</div>
+   <div id="s4"><ul>
+   <li>尽量保证您的密码与个人信息无关，防止他人盗号。</li>
+   <li>建议密码采用数字和字母混合，并且不短于6位。</li>
+   </ul></div>
+   <form action="AdminServlet?type=modifyPwd" method="post">
+  <div id="s5">
+   <div id="s6">当前密码：</div><div id="s7"><input type="password" id="pwd" name="pwd" onblur="checkPwd()"/></div>
+   <div id="s6"> 新密码：</div><div id="s7"><input type="password" id="pwd1" name="pwd1" onblur="checkPwd1()"/></div>
+    <div id="s6">确认新密码：</div><div id="s7"><input type="password" id="pwd2" name="pwd2" onblur="checkPwd2()"/></div>
+   </div>
+    <input type="button" id="s8" value="  确定更改    " onclick="to_submit()"/>
+    </form>
+</div>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>login.html</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+.container {
+	margin: auto;
+	background-image: url(images01/login/bg.jpg);
+	background-repeat: no-repeat;
+	width: 1024px;
+	height: 768px;
+}
+
+.m1 {
+	font-family: '黑体';
+	font-weight: 600;
+	font-size: 15px;
+	color: #D8D4D0;
+	padding-top: 247px;
+	padding-left: 533px;
+	width: 200px;
+}
+
+.m2 {
+	margin-top: 10px;
+	text-indent: 14px;
+	font-family: '黑体';
+	color: black;
+	line-height: 14px;
+	font-size: 14px;
+	padding-top: 10px;
+	padding-left: 533px;
+	width: 254px;
+}
+
+.m4 {
+	width: 68px;
+	height: 22px;
+	margin-top: -24px;
+	margin-left: 160px;
+	background-color: #D9D5D6;
+}
+
+.m3 {
+	float: right;
+	width: 24px;
+	height: 22px;
+}
+
+.m5 {
+	padding-left: 603px;
+	padding-top: 35px;
+}
+
+#m6 {
+	padding-left: 733px;
+	margin-top: -28px;
+
+}
+
+a {
+	color: #DCD5A0;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+input {
+	background-color: #E7E7E7;
+	height: 20px;
+	border: 1px solid #9E9E9E;
+}
+
+</style>
+<script type="text/javascript">
+
+	  function resetPwd() {
+		layer.open({
+			type : 2,
+			title : '',
+			shadeClose : true,
+			shade : 0.8,
+			area : [ '420px', '250px' ],
+			content : 'sureAdmin.html'
+		});
+	}
+</script>
+
+
+
+</head>
+
+<body>
+	<div class="container">
+		<form>
+			<div class="m1">登录系统</div>
+			<div class="m2">
+				账&nbsp;&nbsp;号：<input type="text" style="width:180px" id="loginId" value="张欢" /><br />
+			</div>
+			<div class="m2">
+				密&nbsp;&nbsp;码：<input type="password" style="width:180px" id="loginPwd" value="123"/><br />
+			</div>
+			<div class="m2">
+				验证码：<input type="text" style="width:80px" id="code"/>
+				<input type="hidden" id="code1" name="code1"/>	
+
+				<div class="m3" id="m3">
+				
+					<img src="images01/login/sure.png"
+						style="margin-left:-15px;cursor:pointer;" id="yanzhenimg" onclick="getyanzhen()" />
+						
+				</div>
+				<div class="m4" id="m4" ></div>
+			</div>
+			<div class="m5">
+				<img src="images01/login/login.png"
+					style="width:106px;height:30px;cursor:pointer;" onclick="doLogin()" id="login"/>
+					
+
+			</div>
+			<div id="m6">
+				<a href="javascript:onclick=resetPwd()">忘记密码？</a>
+			</div>
+		</form>
+	</div>
+<script type="text/javascript">
+var xhr;
+ function createXMLHttpRequest(){
+	 try 
+     { 
+          // Firefox, Opera 8.0+, Safari 
+          xhr=new XMLHttpRequest(); 
+     } 
+     catch (e) 
+     { 
+           // Internet Explorer 
+          try 
+          { 
+        	  xhr=new ActiveXObject("Msxml2.XMLHTTP"); 
+          } 
+          catch (e) 
+          { 
+                 try
+                 { 
+                	 xhr=new ActiveXObject("Microsoft.XMLHTTP"); 
+                 } 
+                 catch (e) 
+                 { 
+                        alert("您的浏览器不支持AJAX！"); 
+                 } 
+          } 
+     }
+ }
+
+function checkCode(){
+		var code= document.getElementById("code").value;
+		
+		var code1= document.getElementById("code1").value;
+		if (code.length!=0&&code==code1) {
+			return true;
+		}else{
+			getyanzhen();
+			return false;
+		}
+	}
+$(function(){
+getyanzhen();
+
+});
+
+
+function getyanzhen(){
+ var code = "";      
+    var codeLength = 4;
+    var selectChar = new Array(1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','j','k','l','m','n','p','q','r','s','t','u','v','w','x','y','z');      
+    for(var i=0;i<codeLength;i++) {
+       var charIndex = Math.floor(Math.random()*32);      
+       code +=selectChar[charIndex];
+    }
+         		
+    document.getElementById("m4").innerHTML=code;
+    document.getElementById("code1").value=code;
+   
+}
+
+function doLogin(){
+var res=checkCode();
+			if(res==false){
+			layer.tips('验证码不正确！','#yanzhenimg');
+			}else{
+
+	createXMLHttpRequest();
+	var name = document.getElementById("loginId").value;
+	var pwd = document.getElementById("loginPwd").value;
+	
+	 createXMLHttpRequest();
+	if(xhr!=null){
+		var url ="AdminLogin?loginId="+name+"&loginPwd="+pwd; 
+		xhr.open("POST",url,true);
+		xhr.setRequestHeader("Content-Type",
+			"application/x-www-form-urlencoded;");
+		xhr.onreadystatechange=processRequest;
+		xhr.send(null);
+	}else{
+		alert("不能创建XMLHttpRequest对象实例");
+	}
+	}
+}
+function processRequest(){
+
+	if(xhr.readyState==4){
+		 if(xhr.status==200){
+			 var data=xhr.responseText;
+			if(data=="success"){
+			location.href="BlossomHouse.jsp";
+			}else if(data=="faile"){
+				layer.tips('用户名或密码错误！','#loginId');
+			}
+		 }
+	 }
+	
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Blossom找回密码</title>
+<link rel="stylesheet" href="css/styleRegister.css" type="text/css">
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<meta charset="UTF-8">
+<script type="text/javascript">
+	document.createElement("section");
+	document.createElement("article");
+	document.createElement("footer");
+	document.createElement("header");
+	document.createElement("hgroup");
+	document.createElement("nav");
+	document.createElement("menu");
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		var str = "";
+		str += " <ul>";
+		str += " <li ><label class='fl mr2'>昵称：</label>";
+		str += " <input type='text' tabindex='3' name='tel' id='nickName' autocomplete='off' maxlength='11' onfocus='usercenter_check.hide_note('tel-tip')' onblur='usercenter_check.check_tel()' style='ime-mode:disabled' class='txt-m fl ' value='小王' onClick='if(value==defaultValue){value='';this.style.color='#333';}' />";
+		str += " <div style='display:none' class='msg-error'>请输入昵称</div>";
+		str += " </li>";
+		str += " <li><label class='fl mr2'>手机号码：</label>";
+		str += " <input type='text' tabindex='3' name='tel' id='phone' autocomplete='off' maxlength='11' onfocus='usercenter_check.hide_note('tel-tip')' onblur='usercenter_check.check_tel()' style='ime-mode:disabled' class='txt-m fl ' value='12213455678' onClick='if(value==defaultValue){value='';this.style.color='#333';}' >";
+		str += " <div style='display:none' class='msg-error'>请输入11位手机号码</div></li>";
+		str += " <li><label class='fl'>&nbsp;</label><p style=' line-height: 28px; '><input type='checkbox' name='checkbox1' value='1' id='checkbox1'>我已阅读并同意<a style='text-decoration:underline;'>《Blossom花店服务条款协议》</a></p></li>";
+		str += " <li class='clr'><label class='db fl'>&nbsp;</label><a class='db fl next' href='javascript:onclick=tiaodaomibao();'>下一步</a></li>";
+		str += " </ul>";
+
+		$("#foget").html(str);
+
+	});
+
+	function tiaodaomibao() {
+		var nickName = document.getElementById("nickName").value;
+		var phone = document.getElementById("phone").value;
+		var checkBox = document.getElementById("checkbox1");
+		if (!checkBox.checked) {
+			alert("您还未同意服务条款");
+		} else {
+			var jsonStr = {
+				nickName : nickName,
+				phone : phone
+			};
+
+			$
+					.ajax({
+						url : "ChaMiBao",
+						type : "post",
+						data : jsonStr,
+						dataType : "json",
+						success : function(data) {
+							var str = "";
+
+							$
+									.each(
+											data,
+											function(index, val) {
+												str += " <ul>";
+												str += " <li ><label class='fl mr2'>密保问题：</label>";
+												str += " <input type='text' tabindex='3' name='tel' id='miBao' autocomplete='off' maxlength='11' onfocus='usercenter_check.hide_note('tel-tip')' onblur='usercenter_check.check_tel()' readonly='readonly'  style='ime-mode:disabled' class='txt-m fl ' value='"
+														+ val.miBao
+														+ "' onClick='if(value==defaultValue){value='';this.style.color='#333';}' />";
+												str += " <div style='display:none' class='msg-error'>密保问题</div>";
+												str += " </li>";
+												str += " <li><label class='fl mr2'>密保答案：</label>";
+												str += " <input type='text' tabindex='3' name='tel' id='answer' autocomplete='off' maxlength='11' onfocus='usercenter_check.hide_note('tel-tip')' onblur='usercenter_check.check_tel()' style='ime-mode:disabled' class='txt-m fl ' value='' onClick='if(value==defaultValue){value='';this.style.color='#333';}' >";
+												str += " <div style='display:none' class='msg-error'>密保答案</div></li>";
+												str += " <li class='clr'><label class='db fl'>&nbsp;</label><a class='db fl next' href='javascript:onclick=tiaodaoupdatepwd("
+														+ val.customerId
+														+ ");'>下一步</a></li>";
+												str += " </ul>";
+											});
+
+							$("#foget").html(str);
+							/* 	$("#imgs").css("backgroundImage",
+										"url(../images/2_03.jpg) center 55% no-repeat"); */
+							$("#imgs").removeClass("step").addClass("step2");
+
+						},
+						error : function() {
+							layer.tips('您的信息不正确','#nickName');
+						}
+					});
+		}
+	}
+
+	function tiaodaoupdatepwd(customerId) {
+		var answer = document.getElementById("answer").value;
+		
+		var jsonStr = {
+			customerId : customerId,
+			answer : answer
+		};
+		$
+				.ajax({
+
+					url : "ChaPwd",
+					type : "post",
+					data : jsonStr,
+					dataType : "json",
+					success : function(data) {
+						var str = "";
+
+						$
+								.each(
+										data,
+										function(index, val) {
+											str += " <ul>";
+											str += " <li ><label class='fl mr2'>新密码：</label>";
+											str += " <input type='password' tabindex='3' name='tel' id='pwd' autocomplete='off' maxlength='11' onfocus='usercenter_check.hide_note('tel-tip')' onblur='usercenter_check.check_tel()'   style='ime-mode:disabled' class='txt-m fl ' value='' onClick='if(value==defaultValue){value='';this.style.color='#333';}' />";
+											str += " <div style='display:none' class='msg-error'>新密码</div>";
+											str += " </li>";
+											str += " <li><label class='fl mr2'>确认密码：</label>";
+											str += " <input type='password' tabindex='3' name='tel' id='rePwd' autocomplete='off' maxlength='11' onfocus='usercenter_check.hide_note('tel-tip')' onblur='usercenter_check.check_tel()' style='ime-mode:disabled' class='txt-m fl ' value='' onClick='if(value==defaultValue){value='';this.style.color='#333';}' >";
+											str += " <div style='display:none' class='msg-error'>请确认密码</div></li>";
+											str += " <li class='clr'><label class='db fl'>&nbsp;</label><a class='db fl next' href='javascript:onclick=shezhixinmima("
+													+ val.customerId
+													+ ");'>下一步</a></li>";
+											str += " </ul>";
+										});
+
+						$("#foget").html(str);
+						/* 	$("#imgs").css("backgroundImage",
+									"url(../images/2_03.jpg) center 55% no-repeat"); */
+						$("#imgs").removeClass("step2").addClass("step3");
+
+					},
+					error : function() {
+						layer.tips('密保答案不正确','#answer');
+					}
+				});
+
+	}
+
+	function shezhixinmima(customerId) {
+		var pwd = document.getElementById("pwd").value;
+		var repwd = document.getElementById("rePwd").value;
+		if (pwd != repwd) {
+			layer.tips('两次输入密码不一致！', '#pwd');
+		} else {
+			var jsonStr = {
+				customerId : customerId,
+				pwd : pwd
+			};
+			$
+					.ajax({
+
+						url : "UpdatePwd",
+						type : "post",
+						data : jsonStr,
+						dataType : "json",
+						success : function(data) {
+							var str = "";
+							str += " <div class='success'>";
+							str += " <ul>";
+							str += " <li class='suc1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;恭喜您更新密码成功</li>";
+							str += " <li class='suc2'><a class='db fl' href='shop.html'>返回主页</a></li>";
+							str += " </ul>";
+							str += " </div>";
+							$("#foget").html(str);
+							$("#imgs").removeClass("step3").addClass("step4");
+
+						},
+						error : function() {
+							alert("error");
+						}
+					});
+		}
+	}
+</script>
+
+</head>
+<body>
+	<header>
+		<div class="w12 header">
+			<a class="db logo fl"><img src="images/logo.png" width="327"
+				height="94" alt="" /></a>
+			<div class="fr logofr">
+				<a href="shop.html" class="blk">返回首页</a> |<a href="#" class="blk">客服中心</a><br>
+				如果遇到问题请拨打：<strong style="font-size:14px;">18056608684</strong>
+			</div>
+		</div>
+	</header>
+	<div class="head_border"></div>
+	<section class="w12 login"></section>
+	<section class="main w12">
+		<div class="title">
+			<a class="title1 db fl">找回密码</a>
+		</div>
+		<div class="fr tit2">
+			<span class="arr"></span>
+		</div>
+		<div class="w12 step" id="imgs"></div>
+
+		<div class="inputsec" id="foget">
+		
+		</div>
+	</section>
+</body>
+</html>

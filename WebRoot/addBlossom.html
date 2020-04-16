@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+	 <meta charset="UTF-8">
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+ <link href="style/authority/add.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+
+<style type="text/css">
+.c {
+	width: 200px;
+	height: 200px;
+	margin-left:50px;
+}
+
+.loadfile {
+	float: right;
+	display: block;
+	width: 170px;
+	height: 170px;
+	font-size: 40px;
+	text-align: center;
+	line-height: 170px;
+	border: 1px solid #ccc;
+}
+.c2{
+width: 200px;
+height: 200px;
+margin-left: 50px;
+
+}
+#imglab2{
+    float:right;
+	display: block;
+    width:170px;
+	height: 170px;	
+	font-size: 40px;
+	text-align: center;	
+	line-height:170px;
+	border: 1px solid #ccc;
+	margin-top: 20px;
+	}	
+
+.bg_size {
+	background-repeat: no-repeat;
+	background-size: 170px 170px;
+}
+}
+</style>
+<script type="text/javascript">
+	// 声明一个XMLHttpRequest对象
+	var xhr;
+	//创建一个XMLHttpRequest对象
+	function createXMLHttpRequest() {
+		try {
+			xhr = new XMLHttpRequest();
+		//} catch (e) {
+			//xhr = new ActiveXObject("Msxml2.XMLHTTP");
+		//} catch (e) {
+			//xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) 
+		{
+			alert("您的浏览器不支持AJAX！");
+		}
+	}
+
+	function checkFlowerName() {
+	var flowerName = document.getElementById("flowerName").value;
+	var description=document.getElementById("description").value;
+	var reg =/^[\u4e00-\u9fa5\w]+$/;
+	if(flowerName.trim().length==0){
+	 layer.tips('花的品种不能为空', '#flowerName');
+	 return false;
+	}else if(description.trim().length==0){
+	layer.tips('花名不能为空', '#description');
+	 return false;
+	}else if(flowerName.trim().length>16||!reg.test(flowerName.trim())){
+	   layer.tips('花的品种需由16位以内字符组成', '#flowerName');
+		return false;
+		
+		}else if(description.trim().length>16||!reg.test(description.trim())){
+		 layer.tips('花名需由16位以内字符组成', '#flowerName');
+		return false;
+		}else{
+		createXMLHttpRequest();
+		
+		//设置回调函数
+		xhr.onreadystatechange = ok;
+		//发送请求
+		xhr.open("GET", "FlowerServlet?type=registerFlowerOK&flowerName="
+				+ flowerName.trim()+"&description="+description.trim(), true);
+		xhr.send();
+		}
+	}
+
+	function ok() {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+		
+				var data = xhr.responseText;
+				
+				if (data == "OK") {
+				layer.tips('花名可用', '#description');
+				
+					return true;
+				}else{
+			
+				layer.tips('该花已存在', '#description');
+				
+				return false;
+				}
+				
+			}
+		}
+
+	}
+	
+	function $1(element) {
+	return document.getElementById(element);
+	}
+	
+	function checkPrice(){
+	var price = $1("price");
+	var reg = /^[1-9]\d*(\.\d{1,2})?$/;
+	if (price.value.trim().length != 0) {
+		if (!reg.test(price.value.trim())) {
+		layer.tips('Blossom只能为数字，可保留两位小数！', '#price');
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+	layer.tips('Blossom价格不能为空！', '#price');
+		return false;
+	}
+	}
+	
+	function checkStock(){
+	var stock = $1("stock");
+	var reg = /^[1-9]\d*$/;
+	if (stock.value.trim().length != 0) {
+		if (!reg.test(stock.value.trim())) {
+		layer.tips('库存只能为正整数！', '#stock');
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+	layer.tips('库存不能为空！', '#stock');
+		return false;
+	}
+	}
+
+	function to_submit(){
+	if(ok()&&checkPrice()&&checkStock()){
+		document.forms[0].submit();
+	}
+	}
+</script>
+
+
+</head>
+
+<body>
+	<div>
+		<form method="post" action="AddFlowerServlet?type=addFlower" enctype="multipart/form-data">
+			<table class="mytab w600">
+				<tr>
+					
+					<th colspan="2">新 增 Blossom</th>
+				</tr>
+				<tr>
+					<td><label for="name">花的品种</label></td>
+					<td><input type="text" name="flowerName" id="flowerName"></td>
+				</tr>
+				<tr>
+					<td><label for="name">花名： </label></td>
+					<td><input type="text" name="description" id="description"
+						onblur="checkFlowerName()"></td>
+				</tr>
+				<tr>
+					<td><label for="price">单价：</label></td>
+					<td><input type="text" name="price" id="price"
+						onblur="checkPrice()"></td>
+				</tr>
+
+				<tr>
+					<td><label for="stock">库存：</label></td>
+					<td><input type="text" name="stock" id="stock"
+						onblur="checkStock()"></td>
+				</tr>
+				
+				
+				<tr>
+
+				<td><label for="imglab">小图：</label></td>
+                <td> <div class="c">
+					<label id="imglab" title="点击'+'号上传头像" class="loadfile"
+						for="uploadfile">+</label> <input type="file" id="uploadfile"
+						style="display:none;" name="flowerimg1" />
+				</div>
+				</td>
+        </tr>
+        
+       <tr>
+          <td><label for="imglab2">大图：</label></td>
+          <td><div class="c2">
+					<label id="imglab2" title="点击'+'号上传头像" class="loadfile2"
+						for="uploadfile2">+</label> <input type="file" id="uploadfile2"
+						style="display:none;" name="flowerimg2" />
+				</div>
+          </td>
+        
+				</tr>
+
+
+				
+
+				<tr>
+					<td colspan="2"><input type="button" onclick="to_submit()"
+						name="button" id="button" value=" 点击新增 "></td>
+				</tr>
+			</table>
+
+		</form>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+
+			$("#uploadfile")
+					.on(
+							"change",
+							function(e) {
+								var fr = new FileReader();
+								fr.readAsDataURL(document
+										.getElementById("uploadfile").files[0]);
+								fr.onload = function(e) {
+									$("#imglab").addClass("bg_size");
+									$("#imglab").css("background-image",
+											"url(" + e.target.result + ")");
+									/* $("#imglab").css("width","");
+									$("#imglab").css("width",""); */
+
+									$("#imglab").html('');
+								};
+
+							});
+		});
+		
+		$(function() {
+			$("#uploadfile2")
+					.on(
+							"change",
+							function(e) {
+								var fr = new FileReader();
+								fr.readAsDataURL(document
+										.getElementById("uploadfile2").files[0]);
+								fr.onload = function(e) {
+									$("#imglab2").addClass("bg_size");
+									$("#imglab2").css("background-image",
+											"url(" + e.target.result + ")");
+									/* $("#imglab").css("width","");
+									$("#imglab").css("width",""); */
+
+									$("#imglab2").html('');
+								};
+
+							});
+		});
+
+		
+	</script>
+</body>
+</html>
+

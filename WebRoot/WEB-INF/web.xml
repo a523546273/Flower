@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>Flower</display-name>
+  <servlet>
+    <servlet-name>AdminLogin</servlet-name>
+    <servlet-class>com.flower.servlet.AdminLogin</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AddFlower</servlet-name>
+    <servlet-class>com.flower.servlet.AddFlower</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Show</servlet-name>
+    <servlet-class>com.flower.servlet.Show</servlet-class>
+  </servlet>
+  
+  
+  <!-- 配置过滤器 begin -->
+	<filter>
+		<filter-name>CharacterEncoding</filter-name>
+		<filter-class>com.filter.SetEncodingFilter</filter-class>
+		<init-param>
+			<param-name>Encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<!-- 配置过滤器 end -->
+	
+	<!-- 配置过滤器映射 begin -->
+	<filter-mapping>
+		<filter-name>CharacterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 配置过滤器映射 end -->
+
+
+
+<!-- 拦截begin -->
+
+
+
+
+
+
+
+
+<!-- 拦截end -->
+
+
+
+
+
+
+	
+
+  
+  
+  
+  
+  
+  
+  <servlet>
+    <servlet-name>ShowflowerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.ShowflowerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FlowerShopServlet</servlet-name>
+    <servlet-class>com.flower.servlet.FlowerShopServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PriceShopServlet</servlet-name>
+    <servlet-class>com.flower.servlet.PriceShopServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>FlowerDetailServlet</servlet-name>
+    <servlet-class>com.flower.servlet.FlowerDetailServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AddCustomerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.AddCustomerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AddFlowerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.AddFlowerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CustomerListServlet</servlet-name>
+    <servlet-class>com.flower.servlet.CustomerListServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CustomerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.CustomerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FlowerListServlet</servlet-name>
+    <servlet-class>com.flower.servlet.FlowerListServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FlowerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.FlowerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OrderListServlet</servlet-name>
+    <servlet-class>com.flower.servlet.OrderListServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OrderServlet</servlet-name>
+    <servlet-class>com.flower.servlet.OrderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CustomerLoginServlet</servlet-name>
+    <servlet-class>com.flower.servlet.CustomerLoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CustomerRegisterServlet</servlet-name>
+    <servlet-class>com.flower.servlet.CustomerRegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CusRegisterServlet</servlet-name>
+    <servlet-class>com.flower.servlet.CusRegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SearchFlowerByDescriptionServlet</servlet-name>
+    <servlet-class>com.flower.servlet.SearchFlowerByDescriptionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BuyFlowerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.BuyFlowerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>GetFlowerPageCountServlet</servlet-name>
+    <servlet-class>com.flower.servlet.GetFlowerPageCountServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>JPaginateServlet1</servlet-name>
+    <servlet-class>com.flower.servlet.JPaginateServlet1</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>UpdateInfoServlet</servlet-name>
+    <servlet-class>com.flower.servlet.UpdateInfoServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>DeleteFlowerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.DeleteFlowerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteOrderServlet</servlet-name>
+    <servlet-class>com.flower.servlet.DeleteOrderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateFlowerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.UpdateFlowerServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateOrderServlet</servlet-name>
+    <servlet-class>com.flower.servlet.UpdateOrderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateCustomerInfoServlet</servlet-name>
+    <servlet-class>com.flower.servlet.UpdateCustomerInfoServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetFlowerPCountByFnameServlet</servlet-name>
+    <servlet-class>com.flower.servlet.GetFlowerPCountByFnameServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SearchCustomerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.SearchCustomerServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>JPaginateByNameServlet</servlet-name>
+    <servlet-class>com.flower.servlet.JPaginateByNameServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SearchFlowerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.SearchFlowerServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>JPaginateByPriceServlet</servlet-name>
+    <servlet-class>com.flower.servlet.JPaginateByPriceServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>JPaginateByDescriptionServlet</servlet-name>
+    <servlet-class>com.flower.servlet.JPaginateByDescriptionServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SearchOrderServlet</servlet-name>
+    <servlet-class>com.flower.servlet.SearchOrderServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DingDanServlet</servlet-name>
+    <servlet-class>com.flower.servlet.DingDanServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>FogetPwdServlet</servlet-name>
+    <servlet-class>com.flower.servlet.FogetPwdServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ChaMiBao</servlet-name>
+    <servlet-class>com.flower.servlet.ChaMiBao</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ChaPwd</servlet-name>
+    <servlet-class>com.flower.servlet.ChaPwd</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePwd</servlet-name>
+    <servlet-class>com.flower.servlet.UpdatePwd</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.flower.servlet.AdminServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AfterUpdate</servlet-name>
+    <servlet-class>com.flower.servlet.AfterUpdate</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuitServlet</servlet-name>
+    <servlet-class>com.flower.servlet.QuitServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuitCustomerServlet</servlet-name>
+    <servlet-class>com.flower.servlet.QuitCustomerServlet</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>AdminLogin</servlet-name>
+    <url-pattern>/AdminLogin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddFlower</servlet-name>
+    <url-pattern>/AddFlower</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Show</servlet-name>
+    <url-pattern>/Show</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <servlet-mapping>
+    <servlet-name>ShowflowerServlet</servlet-name>
+    <url-pattern>/ShowflowerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FlowerShopServlet</servlet-name>
+    <url-pattern>/FlowerShopServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PriceShopServlet</servlet-name>
+    <url-pattern>/PriceShopServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>FlowerDetailServlet</servlet-name>
+    <url-pattern>/FlowerDetailServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AddCustomerServlet</servlet-name>
+    <url-pattern>/AddCustomerServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AddFlowerServlet</servlet-name>
+    <url-pattern>/AddFlowerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CustomerListServlet</servlet-name>
+    <url-pattern>/CustomerListServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CustomerServlet</servlet-name>
+    <url-pattern>/CustomerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FlowerListServlet</servlet-name>
+    <url-pattern>/FlowerListServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FlowerServlet</servlet-name>
+    <url-pattern>/FlowerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderListServlet</servlet-name>
+    <url-pattern>/OrderListServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderServlet</servlet-name>
+    <url-pattern>/OrderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CustomerLoginServlet</servlet-name>
+    <url-pattern>/CustomerLoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CustomerRegisterServlet</servlet-name>
+    <url-pattern>/CustomerRegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CusRegisterServlet</servlet-name>
+    <url-pattern>/CusRegisterServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchFlowerByDescriptionServlet</servlet-name>
+    <url-pattern>/SearchFlowerByDescriptionServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BuyFlowerServlet</servlet-name>
+    <url-pattern>/BuyFlowerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetFlowerPageCountServlet</servlet-name>
+    <url-pattern>/GetFlowerPageCountServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>JPaginateServlet1</servlet-name>
+    <url-pattern>/JPaginateServlet1</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>UpdateInfoServlet</servlet-name>
+    <url-pattern>/UpdateInfoServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>DeleteFlowerServlet</servlet-name>
+    <url-pattern>/DeleteFlowerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteOrderServlet</servlet-name>
+    <url-pattern>/DeleteOrderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateFlowerServlet</servlet-name>
+    <url-pattern>/UpdateFlowerServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateOrderServlet</servlet-name>
+    <url-pattern>/UpdateOrderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateCustomerInfoServlet</servlet-name>
+    <url-pattern>/UpdateCustomerInfoServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetFlowerPCountByFnameServlet</servlet-name>
+    <url-pattern>/GetFlowerPCountByFnameServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SearchCustomerServlet</servlet-name>
+    <url-pattern>/SearchCustomerServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>JPaginateByNameServlet</servlet-name>
+    <url-pattern>/JPaginateByNameServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SearchFlowerServlet</servlet-name>
+    <url-pattern>/SearchFlowerServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>JPaginateByPriceServlet</servlet-name>
+    <url-pattern>/JPaginateByPriceServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>JPaginateByDescriptionServlet</servlet-name>
+    <url-pattern>/JPaginateByDescriptionServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SearchOrderServlet</servlet-name>
+    <url-pattern>/SearchOrderServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DingDanServlet</servlet-name>
+    <url-pattern>/DingDanServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FogetPwdServlet</servlet-name>
+    <url-pattern>/FogetPwdServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChaMiBao</servlet-name>
+    <url-pattern>/ChaMiBao</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChaPwd</servlet-name>
+    <url-pattern>/ChaPwd</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePwd</servlet-name>
+    <url-pattern>/UpdatePwd</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/AdminServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AfterUpdate</servlet-name>
+    <url-pattern>/AfterUpdate</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuitServlet</servlet-name>
+    <url-pattern>/QuitServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuitCustomerServlet</servlet-name>
+    <url-pattern>/QuitCustomerServlet</url-pattern>
+  </servlet-mapping>
+
+
+
+ 
+
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

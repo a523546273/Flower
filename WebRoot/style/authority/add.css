@@ -1,0 +1,71 @@
+.mytab{
+	border-collapse:collapse;
+	margin: 0  auto;
+	
+}
+.mytab th{
+	border: 1px solid #B98F76;
+	background-color:#AD8D8B;
+	text-align:left;
+	text-indent:1em;
+	letter-spacing: 2px;
+	font-size:14px;
+	ext-transform: uppercase;
+	line-height:30px;
+	color: #fff;
+	height: 37px;
+}
+.mytab tr td{
+	width:100px;
+	text-align:center;
+	border:1px solid #666;
+	padding:10px;
+	font-size:12px;
+	color: #323232;
+	background-color:#F6F6F6;
+	border-left: 1px solid #ECECEC;
+	border-right: 1px solid #ECECEC;
+	border-bottom: 1px solid #ECECEC;
+}
+.w600{
+	width:500px;
+}
+.headimg{
+	float:left;
+	width:200px;
+	 height:250px;
+	 margin-top:14px;
+	 margin-right: 50px;
+	 margin-left: 20px;
+	 color:#5A5A5A;
+	 font-size:20px;
+}
+.mess{
+	margin-top:10px;
+	float:left;
+}
+.dash{
+	color:#909090;
+	line-height:40px;
+	font-size:12px;
+	text-indent:10px;
+	width:200px;
+	border-bottom: 1px dashed #AD8D8B;
+}
+.dash2{
+	margin-top:-4px;
+	color:#909090;
+	line-height:40px;
+	font-size:12px;
+	text-indent:10px;
+	width:300px;
+	border-bottom: 1px dashed #AD8D8B;
+}
+.mytab #button{
+	height: 35px;
+	width: 100px;
+	border: 1px solid #C0C0C0;
+}
+.tableList{
+	padding-top: 20px;
+}
